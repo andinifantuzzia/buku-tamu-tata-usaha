@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Form Buku Tamu - Hasil dengan Button Hapus & Kirim</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background-image: url("WhatsApp\ Image\ 2025-10-13\ at\ 09.08.59_8e646cf4.jpg");
+      padding: 40px;
+    }
+    .login-card, .confirm-card {
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      background-color: rgba(26, 101, 167, 0.7);
+      
+    }
+    .container .row > div {
+      margin-bottom: 20px;
+    }
+    #formHasilContainer {
+      margin-left: 20px;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+    .hasil-card {
+      margin-bottom: 15px;
+      padding: 15px;
+      border-radius: 0.5rem;
+      background-color: #f8f9fa;
+      box-shadow: 0 0 5px rgba(0,0,0,0.05);
+      position: relative;
+    }
+    .hasil-card h5 {
+      margin-bottom: 10px;
+    }
+    .hasil-waktu {
+      font-style: italic;
+      font-size: 0.9rem;
+      color: #666;
+    }
+    .btn-container {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+    }
+    .btn-container button {
+      margin-left: 5px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="row gx-4 justify-content-center">
+    <!-- Form Input Data -->
+    <div class="col-md-5">
+      <div class="login-card">
+        <div class="text-center mb-3">
+          <img src="logo_poltek-removebg-preview.png" alt="Logo" class="img-fluid" style="max-width: 100px;">
+        </div>
+        <h3 class="text-center mb-4">Buku Tamu Digital</h3>
+        <form id="formInput" onsubmit="return false;">
+          <div class="mb-3">
+            <input type="text" class="form-control" id="name" placeholder="nama" required />
+          </div>
+          <div class="mb-3">
+            <input type="text" class="form-control" id="instansi" placeholder="instansi" required />
+          </div>
+          <div class="mb-3">
+            <input type="text" class="form-control" id="contact" placeholder="No kontak" required />
+          </div>
+          <div class="mb-3">
+            <input type="text" class="form-control" id="purpose" placeholder="Tujuan Kunjungan" required />
+          </div>
+          <div class="d-grid">
+            <button type="submit" class="btn btn-primary" onclick="tambahData()">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Container hasil (bukan form, hanya daftar hasil) -->
+    <div class="col-md-5" id="formHasilContainer">
+
+      <!-- Data tamu akan muncul di sini -->
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  function tambahData() {
+    // Ambil nilai dari form input
+    const name = document.getElementById("name").value.trim();
+    const instansi = document.getElementById("instansi").value.trim();
+    const contact = document.getElementById("contact").value.trim();
+    const purpose = document.getElementById("purpose").value.trim();
+
+    // Validasi jika ada yang kosong
+    if (!name || !instansi || !contact || !purpose) {
+      alert("Harap isi semua data terlebih dahulu.");
+      return;
+    }
+
+    // Ambil waktu sekarang (HH:MM)
+    const now = new Date();
+    const jam = now.getHours().toString().padStart(2, '0');
+    const menit = now.getMinutes().toString().padStart(2, '0');
+    const waktu = `${jam}:${menit}`;
+
+    // Buat elemen div hasil baru
+    const hasilContainer = document.getElementById("formHasilContainer");
+
+    const card = document.createElement("div");
+    card.classList.add("hasil-card");
+
+    card.innerHTML = `
+      <h5>${name}</h5>
+      <p><strong>Instansi:</strong> ${instansi}</p>
+      <p><strong>Kontak:</strong> ${contact}</p>
+      <p><strong>Tujuan:</strong> ${purpose}</p>
+      <p class="hasil-waktu">Waktu masuk: ${waktu}</p>
+      <div class="btn-container">
+        <button type="button" class="btn btn-sm btn-success" onclick="kirimData(this)">Kirim</button>
+        <button type="button" class="btn btn-sm btn-danger" onclick="hapusData(this)">Hapus</button>
+      </div>
+    `;
+
+    // Tambahkan card baru ke bawah container hasil
+    hasilContainer.appendChild(card);
+
+    // Reset form input supaya siap input data baru
+    document.getElementById("formInput").reset();
+  }
+
+  function hapusData(button) {
+    // Hapus kartu hasil terkait tombol yang diklik
+    const card = button.closest('.hasil-card');
+    card.remove();
+  }
+
+  function kirimData(button) {
+    // Contoh fungsi kirim: tampilkan alert dengan data yang dikirim
+    const card = button.closest('.hasil-card');
+    const nama = card.querySelector('h5').innerText;
+    const instansi = card.querySelector('p:nth-of-type(1)').innerText.replace('Instansi: ', '');
+    const kontak = card.querySelector('p:nth-of-type(2)').innerText.replace('Kontak: ', '');
+    const tujuan = card.querySelector('p:nth-of-type(3)').innerText.replace('Tujuan: ', '');
+    const waktu = card.querySelector('.hasil-waktu').innerText.replace('Waktu masuk: ', '');
+
+    alert(`Mengirim data:\nNama: ${nama}\nInstansi: ${instansi}\nKontak: ${kontak}\nTujuan: ${tujuan}\nWaktu: ${waktu}`);
+
+    // Kalau mau implementasi kirim ke server, bisa pakai fetch/ajax di sini
+  }
+</script>
+
+</body>
+</html>
