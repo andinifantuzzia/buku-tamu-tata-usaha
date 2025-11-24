@@ -45,10 +45,10 @@
           <a class="nav-link text-white" href="mahasiswa.php"><i class="fas fa-user-graduate me-2"></i>Daftar Mahasiswa</a><hr class="bg-secondary">
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="dosen.php"><i class="fas fa-chalkboard-teacher me-2"></i>Daftar Dosen</a><hr class="bg-secondary">
+          <a class="nav-link text-white" href="#"><i class="fas fa-chalkboard-teacher me-2"></i>Daftar Dosen</a><hr class="bg-secondary">
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="pegawai.php"><i class="fas fa-users me-2"></i>Daftar Pegawai</a><hr class="bg-secondary">
+          <a class="nav-link text-white" href="#"><i class="fas fa-users me-2"></i>Daftar Pegawai</a><hr class="bg-secondary">
         </li>
       </ul>
     </div>
