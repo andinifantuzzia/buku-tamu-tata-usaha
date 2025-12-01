@@ -7,7 +7,7 @@ if (isset($_POST['login'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // Query prepared statement
+    // Prepared Statement
     $stmt = $conn->prepare("SELECT * FROM staff WHERE username = ?");
     $stmt->bind_param("s", $username);
     $stmt->execute();
@@ -15,7 +15,6 @@ if (isset($_POST['login'])) {
 
     // Cek username
     if ($result->num_rows === 1) {
-
         $row = $result->fetch_assoc();
 
         // Verifikasi password
@@ -23,7 +22,6 @@ if (isset($_POST['login'])) {
 
             $_SESSION['staff_login'] = true;
             $_SESSION['staff_nama']  = $row['nama'];
-            $_SESSION['staff_password']    = $row['password'];
 
             header("Location: dashboard.php");
             exit;
@@ -31,41 +29,90 @@ if (isset($_POST['login'])) {
         } else {
             $error = "Password salah!";
         }
-
     } else {
         $error = "Username tidak ditemukan!";
     }
-
 }
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Form Login</title>
+    <title>Form Login Staff</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image : url("poltek.jpg");
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-box {
+            background:#007BFF;
+            padding: 30px;
+            width: 350px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+        }
+
+        .login-box h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .login-box input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #457de6ff;
+            border-radius: 5px;
+        }
+
+        .login-box button {
+            width: 100%;
+            padding: 10px;
+            background: #007BFF;
+            border: none;
+            color: white;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .login-box button:hover {
+            background: #0069d9;
+        }
+
+        .error {
+            color: red;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
 
-<h2>Form Login Staff</h2>
+<div class="login-box">
+    <h2>Login Staff</h2>
 
-<form action="proses_login.php" method="POST">
-    <label>Username:</label><br>
-    <input type="text" name="username" required><br><br>
+    <?php if (!empty($error)) : ?>
+        <div class="error"><?= $error; ?></div>
+    <?php endif; ?>
 
-    <label>Password:</label><br>
-    <input type="password" name="password" required><br><br>
+    <form action="" method="POST">
+        
+        <label>Username</label>
+        <input type="text" name="username" required>
 
-    <button type="submit">Login</button>
-</form>
+        <label>Password</label>
+        <input type="password" name="password" required>
+
+        <button type="submit" name="login">Login</button>
+    </form>
+
+</div>
 
 </body>
 </html>
-<?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-
-    echo "Username: " . $username . "<br>";
-    echo "Password: " . $password . "<br>"; // hanya untuk demo, jangan dipakai di produksi
-}
-?>
