@@ -102,18 +102,65 @@ $dataPengunjung = mysqli_query($koneksi, $query);
 
 
             <td>
-              <!-- Tombol Selesai hanya muncul jika jam keluar masih kosong -->
+              <!-- Tombol Edit -->
+              <button 
+                class="btn btn-info btn-sm"
+                data-bs-toggle="modal"
+                data-bs-target="#modalEdit<?= $row['id'] ?>">
+                Edit
+              </button>
+
               <?php if (!$row['jamakhir']) { ?>
               <a href="selesai.php?id=<?= $row['id'] ?>" class="btn btn-warning btn-sm">Selesai</a>
               <?php } ?>
-              <!-- Tombol Hapus -->
+              
               <a href="hapus.php?id=<?= $row['id'] ?>" 
                  class="btn btn-danger btn-sm"
                  onclick="return confirm('Yakin hapus data?')">
                  Hapus
               </a>
             </td>
+
           </tr>
+          <!-- MODAL EDIT -->
+          <div class="modal fade" id="modalEdit<?= $row['id'] ?>" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                        
+                <div class="modal-header">
+                  <h5 class="modal-title">Edit Pengunjung</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                        
+                <form action="edit.php" method="POST">
+                  <div class="modal-body">
+                        
+                    <!-- Kirim ID tersembunyi -->
+                    <input type="hidden" name="id" value="<?= $row['id'] ?>">
+                        
+                    <label class="form-label">Nama</label>
+                    <input type="text" name="nama" class="form-control mb-2" value="<?= $row['nama'] ?>" required>
+                        
+                    <label class="form-label">Instansi</label>
+                    <input type="text" name="instansi" class="form-control mb-2" value="<?= $row['instansi'] ?>" required>
+                        
+                    <label class="form-label">No HP</label>
+                    <input type="text" name="nohp" class="form-control mb-2" value="<?= $row['nohp'] ?>" required>
+                        
+                    <label class="form-label">Keperluan</label>
+                    <textarea name="tujuan" class="form-control mb-2" required><?= $row['tujuan'] ?></textarea>
+                        
+                  </div>
+                        
+                  <div class="modal-footer">
+                    <button type="submit" name="update" class="btn btn-primary">Update</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                  </div>
+                </form>
+                        
+              </div>
+            </div>
+          </div>
           <?php } ?>
         </tbody>
       </table>
