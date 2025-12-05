@@ -115,7 +115,37 @@ $dataPengunjung = mysqli_query($koneksi, $query);
               </a>
             </td>
           </tr>
-
+          <div class="modal fade" id="modalTambah" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered"> 
+    <div class="modal-content">
+              
+      <div class="modal-header">
+        <h5 class="modal-title">Tambah Pengunjung</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+              
+      <!-- FORM TAMBAH DATA -->
+      <form action="tambah.php" method="POST">
+        <div class="modal-body">
+              
+          <label class="form-label">Nama</label>
+          <input type="text" name="nama" class="form-control mb-2" required>
+              
+          <label class="form-label">Instansi</label>
+          <input type="text" name="instansi" class="form-control mb-2" required>
+              
+          <label class="form-label">No HP</label>
+          <input type="text" name="nohp" class="form-control mb-2" required>
+              
+          <label class="form-label">Keperluan</label>
+          <textarea name="tujuan" class="form-control mb-2" required></textarea>
+        </div>
+              
+        <div class="modal-footer">
+          <button type="submit" name="submit" class="btn btn-primary">Simpan</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+        </div>
+      </form>
           <!-- Form Edit Data -->
           <div class="modal fade" id="modalEdit<?= $row['id'] ?>" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered">
@@ -159,7 +189,42 @@ $dataPengunjung = mysqli_query($koneksi, $query);
         </tbody>
       </table>
     </div>
-
+        <!-- MODAL TAMBAH DATA -->
+<div class="modal fade" id="modalTambah" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered"> 
+    <div class="modal-content">
+              
+      <div class="modal-header">
+        <h5 class="modal-title">Tambah Pengunjung</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+              
+      <!-- FORM TAMBAH DATA -->
+      <form action="tambah.php" method="POST">
+        <div class="modal-body">
+              
+          <label class="form-label">Nama</label>
+          <input type="text" name="nama" class="form-control mb-2" required>
+              
+          <label class="form-label">Instansi</label>
+          <input type="text" name="instansi" class="form-control mb-2" required>
+              
+          <label class="form-label">No HP</label>
+          <input type="text" name="nohp" class="form-control mb-2" required>
+              
+          <label class="form-label">Keperluan</label>
+          <textarea name="tujuan" class="form-control mb-2" required></textarea>
+        </div>
+              
+        <div class="modal-footer">
+          <button type="submit" name="submit" class="btn btn-primary">Simpan</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+        </div>
+      </form>
+              
+    </div>
+  </div>
+</div>
 </div>
 </body>
 
