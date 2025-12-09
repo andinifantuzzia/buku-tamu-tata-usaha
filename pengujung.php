@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['selesai'])) {
             display: flex;
             justify-content: center;
             gap: 30px;
-            margin-top: 100px;
+            margin-top: 80px;
         }
         .form-container {
             width: 380px;
@@ -69,14 +69,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['selesai'])) {
             background: rgba(25, 98, 167, 0.85);
             border-radius: 12px;
             box-shadow: 0 0 12px rgba(247, 240, 240, 1);
+            margin-bottom: 80px;
         }
         .hasil-box {
             width: 350px;
             padding: 20px;
-            background: white;
+            background: rgba(25, 98, 167, 0.85);
             border-radius: 12px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+            box-shadow: 0 0 10px rgba(251, 249, 249, 1);
             line-height: 1.6;
+            color: white;
+            align-self: flex-start;
         }
     </style>
 </head>
@@ -108,7 +111,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['selesai'])) {
 
     <?php if (!empty($hasil)): ?>
         <div class="hasil-box">
-            <h5>Data Tamu</h5>
+            <h3 class="text-center mb-4" style="color: white;">Data Tamu</h3>
 
             <?php foreach ($hasil as $key => $value): ?>
                 <?= "$key: $value<br>" ?>
