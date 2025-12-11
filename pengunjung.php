@@ -30,7 +30,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['simpan'])) {
 }
 
 
-// ================== PROSES KIRIM KE DATABASE (TOMBOL SELESAI) ==================
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['selesai'])) {
 
     $nama     = $_POST['nama'];
@@ -39,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['selesai'])) {
     $tujuan   = $_POST['tujuan'];
     $tanggal  = $_POST['tanggal'];
     $jamawal  = $_POST['jam_masuk'];
-    $jamakhir = date("H:i"); // waktu real-time saat klik Selesai
+    $jamakhir = date("H:i");
 
     // Insert ke database
     $query = "INSERT INTO tbpengunjung (nama, instansi, nohp, tujuan, tanggal, jamawal, jamakhir)
