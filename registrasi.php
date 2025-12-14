@@ -1,79 +1,4 @@
 <?php
-<<<<<<< HEAD
-session_start();
-
-// Konfigurasi database
-$host = "localhost";
-$db = "buku_tamu";
-$user = "root";
-$pass = ""; // sesuaikan dengan password MySQL-mu
-
-$conn = new mysqli($host, $user, $pass, $db);
-
-if ($conn->connect_error) {
-    die("Koneksi gagal: " . $conn->connect_error);
-}
-
-$username = $password =  "";
-$usernameError = $passwordError = $successMsg = "";
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = trim($_POST['username']);
-    $password = trim($_POST['password']);
-
-    // Validasi
-    if (empty($username)) {
-        $usernameError = "Username wajib diisi";
-    }
-
-    if (empty($password)) {
-        $passwordError = "Password wajib diisi";
-    } elseif (strlen($password) < 5) {
-        $passwordError = "Password minimal 5 karakter";
-    }
-
-    // Jika tidak ada error, simpan ke database
-    if (empty($usernameError) && empty($passwordError)) {
-        // Hash password
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
-        // Cek apakah username sudah ada
-        $stmt = $conn->prepare("SELECT id FROM users WHERE username = ?");
-        $stmt->bind_param("s", $username);
-        $stmt->execute();
-        $stmt->store_result();
-
-        if ($stmt->num_rows > 0) {
-            $usernameError = "Username sudah digunakan";
-        } else {
-            $stmt->close();
-            $stmt = $conn->prepare("INSERT INTO users (username, password) VALUES (?, ?)");
-            $stmt->bind_param("sss", $username, $hashedPassword);
-
-            if ($stmt->execute()) {
-    // Ambil ID user yang baru dibuat
-    $userId = $stmt->insert_id;
-
-    // Set session
-    $_SESSION['user_id'] = $userId;
-    $_SESSION['username'] = $username;
-
-    // Redirect ke dashboard
-    header("Location: dash.php");
-    exit;
-} else {
-    echo "Error: " . $stmt->error;
-}
-
-            }
-        }
-
-        $stmt->close();
-    }
-
-
-$conn->close();
-=======
 include 'koneksi.php';
 session_start();
 
@@ -101,7 +26,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
->>>>>>> 01623a9cd248b7215ac8094d26e406422de4a52d
 ?>
 <!DOCTYPE html>
 <html lang="id">
