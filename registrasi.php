@@ -1,9 +1,12 @@
 <?php
 include 'koneksi.php';
 session_start();
-
 $success = "";
 $error = "";
+$successMsg = "";
+$username = "";
+$usernameError = "";
+$passwordError = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user  = mysqli_real_escape_string($koneksi, $_POST['username']);

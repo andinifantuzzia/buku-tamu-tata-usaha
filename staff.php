@@ -1,7 +1,5 @@
 <?php
 session_start();
-$_SESSION['login'] = true;
-$_SESSION['user']  = $username;
 include "koneksi.php";
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $user = $_POST['username'];
