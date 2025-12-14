@@ -1,4 +1,5 @@
 <?php
+<<<<<<< HEAD
 session_start();
 
 // Konfigurasi database
@@ -72,6 +73,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 $conn->close();
+=======
+include 'koneksi.php';
+session_start();
+
+$success = "";
+$error = "";
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $user  = mysqli_real_escape_string($koneksi, $_POST['username']);
+    $password  = mysqli_real_escape_string($koneksi, $_POST['password']);
+    // Cek username sudah ada
+    $check = mysqli_query($koneksi, "SELECT * FROM user WHERE username='$user'");
+    if (mysqli_num_rows($check) > 0) {
+        $error = "Username sudah dipakai!";
+    } else {
+        // Insert data
+        $query = "INSERT INTO users (username, password) 
+                  VALUES ('$user', '$password')";
+
+        if (mysqli_query($koneksi, $query)) {
+            $success = "Pendaftaran berhasil! Silakan login.";
+            header("Location: dash.php");
+            exit();
+        } else {
+            $error = "Gagal mendaftar.";
+        }
+    }
+}
+>>>>>>> 01623a9cd248b7215ac8094d26e406422de4a52d
 ?>
 <!DOCTYPE html>
 <html lang="id">
