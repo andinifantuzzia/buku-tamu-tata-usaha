@@ -82,7 +82,7 @@ h3 {
             </form>
         </div>
         <p class="mt-3 text-center">
-        Belum punya akun?  <a href="registrasi.php">Registrasi</a>
+        Belum punya akun?  <a href="register.php">Registrasi</a>
 </p>
     </div>
 </div>

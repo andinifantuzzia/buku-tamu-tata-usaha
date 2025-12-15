@@ -1,12 +1,5 @@
 <?php
-session_start();
 include "koneksi.php";
-
-// CEK LOGIN
-if (!isset($_SESSION['login'])) {
-    header("Location: staff.php");
-    exit;
-}
 
 // mengambil data pencarian
 $cari   = $_GET['cari'] ?? "";
@@ -29,33 +22,50 @@ if ($dari != "" && $sampai != "") {
     $query .= " AND tanggal BETWEEN '$dari' AND '$sampai'";
 }
 
-// menjalankan query
 $dataPengunjung = mysqli_query($koneksi, $query);
 ?>
 
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Daftar Pengunjung</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daftar Pengunjung</title>
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+<!-- CSS SCROLL TABLE -->
+<style>
+.table-scroll {
+    max-height: 420px;      /* tinggi tabel */
+    overflow-y: auto;
+}
+
+/* Header tabel tetap */
+.table-scroll thead th {
+    position: sticky;
+    top: 0;
+    background-color: #212529;
+    color: #fff;
+    z-index: 10;
+}
+</style>
+
 </head>
 
 <body class="p-4 bg-light">
 <div class="container">
 
-  <!-- HEADER + LOGOUT -->
+  <!-- HEADER -->
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h2 class="fw-bold text-uppercase">Daftar Pengunjung</h2>
-
     <a href="logout.php"
-       class="btn btn-danger"
-       onclick="return confirm('Yakin ingin logout?')">
-      <i class="bi bi-box-arrow-right"></i> Logout
-    </a>
+   class="btn btn-danger"
+   onclick="return logoutConfirm('yakin ingin logout?')">
+  <i class="bi bi-box-arrow-right"></i> Logout
+</a>
+
   </div>
 
   <!-- FORM FILTER -->
@@ -73,9 +83,9 @@ $dataPengunjung = mysqli_query($koneksi, $query);
     <i class="bi bi-plus-lg"></i> Tambah Data
   </button>
 
-  <!-- TABEL -->
-  <div class="table-responsive">
-    <table class="table table-hover table-bordered bg-white align-middle">
+  <!-- TABEL SCROLL -->
+  <div class="table-responsive table-scroll">
+    <table class="table table-hover table-bordered bg-white align-middle mb-0">
       <thead class="table-dark">
         <tr>
           <th>Nama</th>
@@ -85,7 +95,7 @@ $dataPengunjung = mysqli_query($koneksi, $query);
           <th>Tanggal</th>
           <th>Jam Masuk</th>
           <th>Jam Keluar</th>
-          <th>Aksi</th>
+          <th width="170">Aksi</th>
         </tr>
       </thead>
 
@@ -100,18 +110,19 @@ $dataPengunjung = mysqli_query($koneksi, $query);
           <td><?= date('H:i', strtotime($row['jamawal'])) ?></td>
           <td><?= $row['jamakhir'] ? date('H:i', strtotime($row['jamakhir'])) : '-' ?></td>
           <td>
-            <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#edit<?= $row['id'] ?>">
+            <button class="btn btn-info btn-sm mb-1"
+              data-bs-toggle="modal" data-bs-target="#edit<?= $row['id'] ?>">
               Edit
             </button>
 
             <?php if (!$row['jamakhir']) { ?>
-              <a href="selesai.php?id=<?= $row['id'] ?>" class="btn btn-warning btn-sm">
+              <a href="selesai.php?id=<?= $row['id'] ?>" class="btn btn-warning btn-sm mb-1">
                 Selesai
               </a>
             <?php } ?>
 
             <a href="hapus.php?id=<?= $row['id'] ?>"
-               class="btn btn-danger btn-sm"
+               class="btn btn-danger btn-sm mb-1"
                onclick="return confirm('Yakin hapus data?')">
               Hapus
             </a>
@@ -191,6 +202,7 @@ $dataPengunjung = mysqli_query($koneksi, $query);
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
+<!-- AUTO FILTER -->
 <script>
 const form = document.querySelector("form");
 const cari = document.querySelector("input[name='cari']");
@@ -202,8 +214,18 @@ cari.addEventListener("keyup", () => {
   clearTimeout(timer);
   timer = setTimeout(() => form.submit(), 700);
 });
+
 dari.addEventListener("change", () => form.submit());
 sampai.addEventListener("change", () => form.submit());
+
+function logoutConfirm() {
+  if (confirm("Yakin ingin logout?")) {
+    alert("Terima kasih telah menggunakan sistem 🙏");
+    return true; // lanjut ke logout.php
+  }
+  return false; // batal logout
+}
+
 </script>
 
 </body>
