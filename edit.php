@@ -18,14 +18,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (mysqli_query($koneksi, $query)) {
         echo "<script>
-                alert('Data berhasil diupdate');
                 window.location='dash.php';
-              </script>";
-    } else {
-        echo "<script>
-                alert('Gagal update data');
-                history.back();
               </script>";
     }
 }
+    
 ?>
