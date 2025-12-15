@@ -63,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['selesai'])) {
             display: flex;
             justify-content: center;
             gap: 30px;
-            margin-top: 175px;
+            margin-top: 140px;
         }
         .form-container {
             width: 380px;
@@ -83,11 +83,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['selesai'])) {
             color: white;
             align-self: flex-start;
         }
+        .login-btn {
+        color: white;
+        border: none;
+        position: fixed;
+        top: 20px;
+        right: 20px;
+    }
+
     </style>
 </head>
 
 <body>
-
+<a href="staff.php"
+    <button class="btn login-btn">Login</button>
+</a>
 <div class="layout">
 
     <div class="form-container">
@@ -95,7 +105,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['selesai'])) {
         <div class="text-center mb-3">
             <img src="logo_poltek-removebg-preview.png" alt="Logo" class="img-fluid" style="max-width:100px;">
         </div>
-
+        
         <h3 class="text-center mb-4" style="color: white;">Buku Tamu Digital</h3>
 
     <form method="POST">
