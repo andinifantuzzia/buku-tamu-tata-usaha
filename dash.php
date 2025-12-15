@@ -37,8 +37,12 @@ $dataPengunjung = mysqli_query($koneksi, $query);
 
 <!-- CSS SCROLL TABLE -->
 <style>
+body {
+    height: 100vh;
+    margin: 0; 
+}
 .table-scroll {
-    max-height: 420px;      /* tinggi tabel */
+    max-height: 400px;      /* tinggi tabel */
     overflow-y: auto;
 }
 
@@ -46,7 +50,7 @@ $dataPengunjung = mysqli_query($koneksi, $query);
 .table-scroll thead th {
     position: sticky;
     top: 0;
-    background-color: #212529;
+    background-color: #1269c0d2;
     color: #fff;
     z-index: 10;
 }
