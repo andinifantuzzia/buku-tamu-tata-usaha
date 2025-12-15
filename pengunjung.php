@@ -5,7 +5,6 @@ date_default_timezone_set('Asia/Jakarta');
 $hasil = "";
 $dataSiapKirim = false;
 
-// ================== PROSES SIMPAN (TOMBOL SIMPAN) ==================
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['simpan'])) {
 
     $name     = htmlspecialchars(trim($_POST['name']), ENT_QUOTES);
@@ -16,7 +15,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['simpan'])) {
     $tanggal = date("Y-m-d");
     $jam     = date("H:i");
 
-    // Data sementara untuk preview
     $hasil = [
         "Nama"        => $name,
         "Instansi"    => $instansi,
@@ -40,12 +38,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['selesai'])) {
     $jamawal  = $_POST['jam_masuk'];
     $jamakhir = date("H:i");
 
-    // Insert ke database
     $query = "INSERT INTO tbpengunjung (nama, instansi, nohp, tujuan, tanggal, jamawal, jamakhir)
               VALUES ('$nama', '$instansi', '$nohp', '$tujuan', '$tanggal', '$jamawal', '$jamakhir')";
     mysqli_query($koneksi, $query);
 
-    // Setelah selesai simpan → redirect ke dash.php
     header("Location: dash.php");
     exit;
 }
@@ -75,14 +71,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['selesai'])) {
             background: rgba(25, 98, 167, 0.85);
             border-radius: 12px;
             box-shadow: 0 0 12px rgba(247, 240, 240, 1);
+            margin-bottom: 80px;
         }
         .hasil-box {
             width: 350px;
             padding: 20px;
-            background: white;
+            background: rgba(25, 98, 167, 0.85);
             border-radius: 12px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+            box-shadow: 0 0 10px rgba(251, 249, 249, 1);
             line-height: 1.6;
+            color: white;
+            align-self: flex-start;
         }
     </style>
 </head>
@@ -91,7 +90,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['selesai'])) {
 
 <div class="layout">
 
-    <!-- FORM INPUT -->
     <div class="form-container">
 
         <div class="text-center mb-3">
@@ -100,20 +98,28 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['selesai'])) {
 
         <h3 class="text-center mb-4" style="color: white;">Buku Tamu Digital</h3>
 
-        <form method="POST">
-            <input type="text" name="name" class="form-control mb-3" placeholder="Nama" required>
-            <input type="text" name="instansi" class="form-control mb-3" placeholder="Instansi" required>
-            <input type="text" name="contact" class="form-control mb-3" placeholder="No Kontak" required>
-            <input type="text" name="purpose" class="form-control mb-3" placeholder="Tujuan Kunjungan" required>
+    <form method="POST">
+        <?php
+        echo '<small class="text-white">Nama</small>';
+        echo '<input type="text" name="name" class="form-control mb-3" placeholder="Nama" required>';
 
-            <button type="submit" name="simpan"
-                class="w-100 fw-bold btn btn-primary">
-                Simpan
-            </button>
-        </form>
+        echo '<small class="text-white">Instansi</small>';
+        echo '<input type="text" name="instansi" class="form-control mb-3" placeholder="Instansi" required>';
+
+        echo '<small class="text-white">No Kontak</small>';
+        echo '<input type="text" name="contact" class="form-control mb-3" placeholder="No Kontak" required>';
+
+        echo '<small class="text-white">Tujuan Kunjungan</small>';
+        echo '<input type="text" name="purpose" class="form-control mb-3" placeholder="Tujuan Kunjungan" required>';
+        ?>
+
+        <button type="submit" name="simpan" class="w-100 fw-bold btn btn-primary">
+            Simpan
+        </button>
+    </form>
+
     </div>
 
-    <!-- PREVIEW HASIL -->
     <?php if (!empty($hasil)): ?>
         <div class="hasil-box">
             <h5>Data Tamu</h5>
@@ -122,7 +128,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['selesai'])) {
                 <?= "$key: $value<br>" ?>
             <?php endforeach; ?>
 
-            <!-- TOMBOL SELESAI (INSERT KE DB + jam keluar otomatis) -->
             <?php if ($dataSiapKirim): ?>
                 <form method="POST" class="mt-3">
 
