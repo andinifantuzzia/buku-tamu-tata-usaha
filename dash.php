@@ -92,20 +92,22 @@ body {
     <table class="table table-hover table-bordered bg-white align-middle mb-0">
       <thead class="table-dark">
         <tr>
+          <th width="40">No</th>
           <th>Nama</th>
           <th>Instansi</th>
           <th>No HP</th>
           <th>Keperluan</th>
-          <th>Tanggal</th>
-          <th>Jam Masuk</th>
-          <th>Jam Keluar</th>
-          <th width="170">Aksi</th>
+          <th width="120">Tanggal</th>
+          <th width="110">Jam Masuk</th>
+          <th width="110">Jam Keluar</th>
+          <th width="190">Aksi</th>
         </tr>
       </thead>
 
       <tbody>
       <?php while ($row = mysqli_fetch_assoc($dataPengunjung)) { ?>
         <tr>
+          <td align="center"><?= $row['id'] ?></td>
           <td><?= $row['nama'] ?></td>
           <td><?= $row['instansi'] ?></td>
           <td><?= $row['nohp'] ?></td>

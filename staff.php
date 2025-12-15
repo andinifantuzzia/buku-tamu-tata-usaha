@@ -1,15 +1,24 @@
 <?php
 session_start();
 include "koneksi.php";
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
     $user = $_POST['username'];
     $password = $_POST['password'];
+
     $user = mysqli_real_escape_string($koneksi, $user);
-    $password = mysqli_real_escape_string($koneksi, $password); 
-    $data = mysqli_query($koneksi, "SELECT * FROM users WHERE username='$user' AND password= 
-    '$password'");
-    $row = mysqli_fetch_array($data);
+    $password = mysqli_real_escape_string($koneksi, $password);
+
+    // QUERY DIPERBAIKI (tidak terpotong)
+    $data = mysqli_query(
+        $koneksi,
+        "SELECT * FROM users WHERE username='$user' AND password='$password'"
+    );
+
+    // CEK JUMLAH DATA
     if (mysqli_num_rows($data) > 0) {
+        $row = mysqli_fetch_array($data);
         $_SESSION['username'] = $row['username'];
         header('Location: dash.php');
         exit();
@@ -18,6 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
