@@ -226,7 +226,6 @@ sampai.addEventListener("change", () => form.submit());
 
 function logoutConfirm() {
   if (confirm("Yakin ingin logout?")) {
-    alert("Terima kasih telah menggunakan sistem 🙏");
     return true; // lanjut ke logout.php
   }
   return false; // batal logout
