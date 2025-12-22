@@ -14,7 +14,8 @@ if ($cari != "") {
     $query .= " AND (nama LIKE '%$cari%' 
                 OR instansi LIKE '%$cari%' 
                 OR nohp LIKE '%$cari%' 
-                OR tujuan LIKE '%$cari%')";
+                OR tujuan LIKE '%$cari%'
+                OR tanggal LIKE '%$cari%')";
 }
 
 // filter tanggal
@@ -30,207 +31,203 @@ $dataPengunjung = mysqli_query($koneksi, $query);
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Daftar Pengunjung</title>
+<title>Dashboard Pengunjung</title>
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
-<!-- CSS SCROLL TABLE -->
 <style>
 body {
-    height: 100vh;
-    margin: 0; 
+    background-color: #f4f6f9;
 }
-.table-scroll {
-    max-height: 400px;      /* tinggi tabel */
+
+/* CARD */
+.card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,.05);
+}
+
+/* TABLE */
+.table thead th {
+    background-color: #1f2937;
+    color: #fff;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.table tbody td {
+    vertical-align: middle;
+    font-size: 14px;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f1f5f9;
+}
+
+/* SCROLL */
+.table-wrapper {
+    max-height: 430px;
     overflow-y: auto;
 }
 
-/* Header tabel tetap */
-.table-scroll thead th {
-    position: sticky;
-    top: 0;
-    background-color: #1269c0d2;
-    color: #fff;
-    z-index: 10;
+/* BUTTON */
+.btn-icon {
+    padding: 4px 8px;
+    font-size: 13px;
+}
+
+/* HEADER */
+.page-title {
+    font-weight: 700;
+    letter-spacing: .5px;
 }
 </style>
-
 </head>
 
-<body class="p-4 bg-light">
-<div class="container">
+<body>
+
+<div class="container-fluid p-4">
 
   <!-- HEADER -->
-  <div class="d-flex justify-content-between align-items-center mb-3">
-    <h2 class="fw-bold text-uppercase">Daftar Pengunjung</h2>
-    <a href="logout.php"
-   class="btn btn-danger"
-   onclick="return logoutConfirm('yakin ingin logout?')">
-  <i class="bi bi-box-arrow-right"></i> Logout
-</a>
-
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="page-title">📋 DATA PENGUNJUNG</h4>
+    <a href="logout.php" class="btn btn-outline-danger btn-sm"
+       onclick="return confirm('Yakin ingin logout?')">
+      <i class="bi bi-box-arrow-right"></i> Logout
+    </a>
   </div>
 
-  <!-- FORM FILTER -->
-  <form method="GET" class="d-flex gap-2 mb-3">
-    <input type="text" name="cari" class="form-control" placeholder="Cari..." value="<?= $cari ?>">
-    <input type="date" name="dari" class="form-control" value="<?= $dari ?>">
-    <span class="pt-2">s/d</span>
-    <input type="date" name="sampai" class="form-control" value="<?= $sampai ?>">
-    <button class="btn btn-primary">Filter</button>
-    <a href="dash.php" class="btn btn-secondary">Reset</a>
-  </form>
-
-  <!-- TOMBOL TAMBAH -->
-  <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#modalTambah">
-    <i class="bi bi-plus-lg"></i> Tambah Data
-  </button>
-
-  <!-- TABEL SCROLL -->
-  <div class="table-responsive table-scroll">
-    <table class="table table-hover table-bordered bg-white align-middle mb-0">
-      <thead class="table-dark">
-        <tr>
-          <th width="40">No</th>
-          <th>Nama</th>
-          <th>Instansi</th>
-          <th>No HP</th>
-          <th>Keperluan</th>
-          <th width="120">Tanggal</th>
-          <th width="110">Jam Masuk</th>
-          <th width="110">Jam Keluar</th>
-          <th width="190">Aksi</th>
-        </tr>
-      </thead>
-
-      <tbody>
-      <?php while ($row = mysqli_fetch_assoc($dataPengunjung)) { ?>
-        <tr>
-          <td align="center"><?= $row['id'] ?></td>
-          <td><?= $row['nama'] ?></td>
-          <td><?= $row['instansi'] ?></td>
-          <td><?= $row['nohp'] ?></td>
-          <td><?= $row['tujuan'] ?></td>
-          <td><?= $row['tanggal'] ?></td>
-          <td><?= date('H:i', strtotime($row['jamawal'])) ?></td>
-          <td><?= $row['jamakhir'] ? date('H:i', strtotime($row['jamakhir'])) : '-' ?></td>
-          <td>
-            <button class="btn btn-info btn-sm mb-1"
-              data-bs-toggle="modal" data-bs-target="#edit<?= $row['id'] ?>">
-              Edit
-            </button>
-
-            <?php if (!$row['jamakhir']) { ?>
-              <a href="selesai.php?id=<?= $row['id'] ?>" class="btn btn-warning btn-sm mb-1">
-                Selesai
-              </a>
-            <?php } ?>
-
-            <a href="hapus.php?id=<?= $row['id'] ?>"
-               class="btn btn-danger btn-sm mb-1"
-               onclick="return confirm('Yakin hapus data?')">
-              Hapus
-            </a>
-          </td>
-        </tr>
-
-        <!-- MODAL EDIT -->
-        <div class="modal fade" id="edit<?= $row['id'] ?>" tabindex="-1">
-          <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-
-              <div class="modal-header">
-                <h5 class="modal-title">Edit Pengunjung</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-              </div>
-
-              <form action="edit.php" method="POST">
-                <div class="modal-body">
-                  <input type="hidden" name="id" value="<?= $row['id'] ?>">
-
-                  <label>Nama</label>
-                  <input type="text" name="nama" class="form-control mb-2" value="<?= $row['nama'] ?>" required>
-
-                  <label>Instansi</label>
-                  <input type="text" name="instansi" class="form-control mb-2" value="<?= $row['instansi'] ?>" required>
-
-                  <label>No HP</label>
-                  <input type="text" name="nohp" class="form-control mb-2" value="<?= $row['nohp'] ?>" required>
-
-                  <label>Keperluan</label>
-                  <textarea name="tujuan" class="form-control" required><?= $row['tujuan'] ?></textarea>
-                </div>
-
-                <div class="modal-footer">
-                  <button type="submit" class="btn btn-primary">Update</button>
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                </div>
-              </form>
-
-            </div>
-          </div>
+  <!-- FILTER -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <form method="GET" class="row g-2 align-items-end">
+        <div class="col-md-4">
+          <label class="form-label">Pencarian</label>
+          <input type="text" name="cari" class="form-control" placeholder="Nama / Instansi / No HP" value="<?= $cari ?>">
         </div>
-      <?php } ?>
-      </tbody>
-    </table>
+        <div class="col-md-2">
+          <label class="form-label">Dari Tanggal</label>
+          <input type="date" name="dari" class="form-control" value="<?= $dari ?>">
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Sampai Tanggal</label>
+          <input type="date" name="sampai" class="form-control" value="<?= $sampai ?>">
+        </div>
+        <div class="col-md-1 d-flex gap-2">
+          <button class="btn btn-primary w-100">
+            <i class="bi bi-search"></i>
+          </button>
+          <a href="dash.php" class="btn btn-secondary w-100">
+            <i class="bi bi-arrow-repeat"></i>
+          </a>
+        </div>
+      </form>
+    </div>
   </div>
 
-  <!-- MODAL TAMBAH -->
-  <div class="modal fade" id="modalTambah" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
+  <!-- TABEL -->
+  <div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <span class="fw-semibold">Daftar Pengunjung</span>
+      <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#modalTambah">
+        <i class="bi bi-plus-circle"></i> Tambah
+      </button>
+    </div>
 
-        <div class="modal-header">
-          <h5 class="modal-title">Tambah Pengunjung</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
+    <div class="card-body p-0">
+      <div class="table-responsive table-wrapper">
+        <table class="table table-hover mb-0">
+          <thead>
+            <tr>
+              <th width="50">No</th>
+              <th>Nama</th>
+              <th>Instansi</th>
+              <th>No HP</th>
+              <th>Keperluan</th>
+              <th width="120">Tanggal</th>
+              <th width="100">Masuk</th>
+              <th width="100">Keluar</th>
+              <th width="160">Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+          <?php while ($row = mysqli_fetch_assoc($dataPengunjung)) { ?>
+            <tr>
+              <td class="text-center"><?= $row['id'] ?></td>
+              <td><?= $row['nama'] ?></td>
+              <td><?= $row['instansi'] ?></td>
+              <td><?= $row['nohp'] ?></td>
+              <td><?= $row['tujuan'] ?></td>
+              <td><?= $row['tanggal'] ?></td>
+              <td><?= date('H:i', strtotime($row['jamawal'])) ?></td>
+              <td><?= $row['jamakhir'] ? date('H:i', strtotime($row['jamakhir'])) : '-' ?></td>
+              <td>
+                <button class="btn btn-warning btn-icon mb-1" data-bs-toggle="modal" data-bs-target="#edit<?= $row['id'] ?>">
+                  <i class="bi bi-pencil"></i>
+                </button>
 
-        <form action="tambah.php" method="POST">
-          <div class="modal-body">
-            <input type="text" name="nama" class="form-control mb-2" placeholder="Nama" required>
-            <input type="text" name="instansi" class="form-control mb-2" placeholder="Instansi" required>
-            <input type="text" name="nohp" class="form-control mb-2" placeholder="No HP" required>
-            <textarea name="tujuan" class="form-control" placeholder="Keperluan" required></textarea>
-          </div>
+                <?php if (!$row['jamakhir']) { ?>
+                <a href="selesai.php?id=<?= $row['id'] ?>" class="btn btn-info btn-icon mb-1">
+                  <i class="bi bi-check-circle"></i>
+                </a>
+                <?php } ?>
 
-          <div class="modal-footer">
-            <button type="submit" class="btn btn-primary">Simpan</button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-          </div>
-        </form>
-
+                <a href="hapus.php?id=<?= $row['id'] ?>"
+                   onclick="return confirm('Hapus data?')"
+                   class="btn btn-danger btn-icon mb-1">
+                  <i class="bi bi-trash"></i>
+                </a>
+              </td>
+            </tr>
+          <?php } ?>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
 
 </div>
 
+<!-- MODAL TAMBAH -->
+<div class="modal fade" id="modalTambah" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form action="tambah.php" method="POST">
+        <div class="modal-header">
+          <h5 class="modal-title">Tambah Pengunjung</h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <input type="text" name="nama" class="form-control mb-2" placeholder="Nama" required>
+          <input type="text" name="instansi" class="form-control mb-2" placeholder="Instansi" required>
+          <input type="text" name="nohp" class="form-control mb-2" placeholder="No HP" required>
+          <textarea name="tujuan" class="form-control" placeholder="Keperluan" required></textarea>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary">Simpan</button>
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- AUTO FILTER -->
 <script>
 const form = document.querySelector("form");
 const cari = document.querySelector("input[name='cari']");
-const dari = document.querySelector("input[name='dari']");
-const sampai = document.querySelector("input[name='sampai']");
 let timer;
 
 cari.addEventListener("keyup", () => {
   clearTimeout(timer);
   timer = setTimeout(() => form.submit(), 700);
 });
-
-dari.addEventListener("change", () => form.submit());
-sampai.addEventListener("change", () => form.submit());
-
-function logoutConfirm() {
-  if (confirm("Yakin ingin logout?")) {
-    return true; // lanjut ke logout.php
-  }
-  return false; // batal logout
-}
-
 </script>
 
 </body>
