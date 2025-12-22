@@ -40,8 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['selesai'])) {
               VALUES ('$nama', '$instansi', '$nohp', '$tujuan', '$tanggal', '$jamawal')";
     mysqli_query($koneksi, $query);
 
-    header("Location: dash.php");
-    exit;
+    $pesanSukses = true;
 }
 ?>
 <!DOCTYPE html>
@@ -127,7 +126,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['selesai'])) {
                     <input type="hidden" name="tanggal" value="<?= $hasil['Tanggal'] ?>">
                     <input type="hidden" name="jam_masuk" value="<?= $hasil['Jam Masuk'] ?>">
 
-                    <button type="submit" name="selesai" class="btn btn-success w-100 fw-bold">
+                    <button type="submit" name="selesai" class="btn btn-success w-100 fw-bold" 
+                        onclick="alert('Terima kasih telah berkunjung!')">
                         Selesai
                     </button>
                 </form>
