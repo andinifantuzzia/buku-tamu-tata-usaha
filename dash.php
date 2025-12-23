@@ -1,15 +1,12 @@
 <?php
 include "koneksi.php";
 
-// mengambil data pencarian
 $cari   = $_GET['cari'] ?? "";
 $dari   = $_GET['dari'] ?? "";
 $sampai = $_GET['sampai'] ?? "";
 
-// query utama
 $query = "SELECT * FROM tbpengunjung WHERE 1=1";
 
-// filter pencarian
 if ($cari != "") {
     $query .= " AND (nama LIKE '%$cari%' 
                 OR instansi LIKE '%$cari%' 
@@ -18,7 +15,6 @@ if ($cari != "") {
                 OR tanggal LIKE '%$cari%')";
 }
 
-// filter tanggal
 if ($dari != "" && $sampai != "") {
     $query .= " AND tanggal BETWEEN '$dari' AND '$sampai'";
 }
@@ -41,14 +37,12 @@ body {
     background-color: #f4f6f9;
 }
 
-/* CARD */
 .card {
     border: none;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0,0,0,.05);
 }
 
-/* TABLE */
 .table thead th {
     background-color: #1f2937;
     color: #fff;
@@ -69,19 +63,16 @@ body {
     background-color: #f1f5f9;
 }
 
-/* SCROLL */
 .table-wrapper {
     max-height: 430px;
     overflow-y: auto;
 }
 
-/* BUTTON */
 .btn-icon {
     padding: 4px 8px;
     font-size: 13px;
 }
 
-/* HEADER */
 .page-title {
     font-weight: 700;
     letter-spacing: .5px;
@@ -93,7 +84,6 @@ body {
 
 <div class="container-fluid p-4">
 
-  <!-- HEADER -->
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h4 class="page-title">📋 DATA PENGUNJUNG</h4>
     <a href="logout.php" class="btn btn-outline-danger btn-sm"
@@ -102,7 +92,6 @@ body {
     </a>
   </div>
 
-  <!-- FILTER -->
   <div class="card mb-4">
     <div class="card-body">
       <form method="GET" class="row g-2 align-items-end">
@@ -130,7 +119,6 @@ body {
     </div>
   </div>
 
-  <!-- TABEL -->
   <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
       <span class="fw-semibold">Daftar Pengunjung</span>
@@ -193,7 +181,6 @@ body {
 
 </div>
 
-<!-- MODAL TAMBAH -->
 <div class="modal fade" id="modalTambah" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">

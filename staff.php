@@ -10,13 +10,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $user = mysqli_real_escape_string($koneksi, $user);
     $password = mysqli_real_escape_string($koneksi, $password);
 
-    // QUERY DIPERBAIKI (tidak terpotong)
     $data = mysqli_query(
         $koneksi,
         "SELECT * FROM users WHERE username='$user' AND password='$password'"
     );
 
-    // CEK JUMLAH DATA
     if (mysqli_num_rows($data) > 0) {
         $row = mysqli_fetch_array($data);
         $_SESSION['username'] = $row['username'];
