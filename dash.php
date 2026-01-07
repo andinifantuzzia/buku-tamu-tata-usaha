@@ -45,7 +45,6 @@ body { background:#f4f6f9; }
 
 <div class="container-fluid p-4">
 
-<!-- TITLE -->
 <div class="d-flex justify-content-between align-items-center mb-4">
   <h4 class="page-title">📋 DATA PENGUNJUNG</h4>
   <a href="logout.php" class="btn btn-outline-danger btn-sm"
@@ -54,10 +53,10 @@ body { background:#f4f6f9; }
   </a>
 </div>
 
-<!-- CARD TABEL + FILTER -->
+
 <div class="card">
 
-  <!-- HEADER -->
+
   <div class="card-header d-flex justify-content-between align-items-center">
     <span class="fw-semibold">Daftar Pengunjung</span>
     <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#modalTambah">
@@ -65,7 +64,7 @@ body { background:#f4f6f9; }
     </button>
   </div>
 
-  <!-- FILTER -->
+
   <div class="card-body border-bottom">
     <form method="GET" class="row g-2 align-items-end">
       <div class="col-md-4">
@@ -95,7 +94,7 @@ body { background:#f4f6f9; }
     </form>
   </div>
 
-  <!-- TABEL -->
+
   <div class="card-body p-0">
     <div class="table-responsive table-wrapper">
       <table class="table table-hover mb-0">
@@ -145,7 +144,7 @@ body { background:#f4f6f9; }
             </td>
           </tr>
 
-          <!-- MODAL EDIT -->
+          
           <div class="modal fade" id="edit<?= $row['id'] ?>" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content">
@@ -182,7 +181,6 @@ body { background:#f4f6f9; }
 </div>
 </div>
 
-<!-- MODAL TAMBAH -->
 <div class="modal fade" id="modalTambah" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
