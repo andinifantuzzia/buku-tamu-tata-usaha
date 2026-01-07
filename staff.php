@@ -46,6 +46,14 @@ body{
     height: 100vh;
     margin: 0;
 }
+.back-link {
+    color: white;
+        border: none;
+        position: fixed;
+        top: 20px;
+        right: 20px;
+}
+
 .container {
     background: rgba(133, 174, 248, 0.7);
     padding: 25px;
@@ -68,6 +76,8 @@ h3 {
     </style>
 </head>
 <body>
+<a href="pengunjung.php" class="back-link">Back</a>
+
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-12">
