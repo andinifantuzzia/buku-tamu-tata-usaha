@@ -1,10 +1,5 @@
 <?php
 session_start();
-
-if (!isset($_SESSION['login'])) {
-    header("Location: pengunjung.php");
-    exit;
-}
 include "koneksi.php";
 
 $cari   = $_GET['cari']   ?? '';
